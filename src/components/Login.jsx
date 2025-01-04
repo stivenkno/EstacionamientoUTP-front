@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -55,12 +56,12 @@ export default function Login() {
           </button>
           <p className="text-center">
             Dont have an account?{" "}
-            <a
-              href="/register"
+            <Link
+              to="/register"
               className="text-black font-bold hover:underline"
             >
-              Register
-            </a>
+              Sign Up
+            </Link>
           </p>
         </form>
       </div>
