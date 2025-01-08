@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { setToken } from "../services/api";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -20,6 +21,7 @@ export default function Login() {
 
       if (response.status === 200) {
         const token = response.data.token;
+        setToken(token);
         localStorage.setItem("token", token);
         localStorage.setItem("userName", response.data.user.username);
 

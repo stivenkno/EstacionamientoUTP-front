@@ -5,3 +5,7 @@
 #root {
   @apply w-full h-screen;
 }
+
+html {
+  user-select: none;
+}

@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useColumns } from "../hooks/useColumns";
 
 export default function Home() {
-  const [username, setUsername] = useState("John Doe");
+  const [username, setUsername] = useState("");
+
+  const { columns, addColumn, removeColumn } = useColumns();
+  console.log(columns);
 
   useEffect(() => {
     const userName = localStorage.getItem("userName");
@@ -89,13 +93,19 @@ export default function Home() {
           {/* Board Container */}
           <div className="flex space-x-6">
             {/* Column: Todo */}
-            <div className="w-64 bg-white rounded-lg shadow-md p-4">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold">Todo</h3>
-                <button className="text-gray-500 hover:text-black">⋮</button>
+            {columns.map((column) => (
+              <div
+                id={column.column_id}
+                key={column.column_id}
+                className="w-64 bg-white rounded-lg shadow-md p-4"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-semibold">{column.title}</h3>
+                  <button className="text-gray-500 hover:text-black">⋮</button>
+                </div>
+                <p className="text-center text-gray-500">+ Add New Task</p>
               </div>
-              <p className="text-center text-gray-500">+ Add New Task</p>
-            </div>
+            ))}
 
             {/* Add New Section */}
             <button className="w-64 h-20 bg-gray-200 text-center rounded-lg">
