@@ -9,6 +9,14 @@ const apiInstance = axios.create({
   },
 });
 
+export function getToken() {
+  return (apiInstance.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${localStorage.getItem("token")}`);
+}
+
+getToken();
+
 export function setToken(token) {
   apiInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }

@@ -7,7 +7,7 @@ import {
 
 export const useColumns = () => {
   const [columns, setColumns] = useState([]);
-
+  console.log(columns);
   useEffect(() => {
     async function fetchColumns() {
       const data = await getColumns();
@@ -17,14 +17,18 @@ export const useColumns = () => {
   }, []);
 
   const addColumn = async (title) => {
-    const newColumn = await createColumn(title);
-    setColumns([...columns, newColumn]);
+    if (!title) return; // Evita columnas con título vacío
+    const position = columns.length + 1; // Calcula la posición de la nueva columna
+    const newColumn = await createColumn({ title, position });
+    setColumns([...columns, newColumn]); // Actualiza el estado
   };
 
   const removeColumn = async (id) => {
     await deleteColumn(id);
-    setColumns(columns.filter((column) => column.id !== id));
+    setColumns((prevColumns) =>
+      prevColumns.filter((column) => column.id !== id)
+    );
   };
 
-  return { columns, addColumn, removeColumn };
+  return { columns, addColumn, removeColumn, setColumns };
 };

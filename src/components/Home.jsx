@@ -1,15 +1,37 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useColumns } from "../hooks/useColumns";
 import { useTasks } from "../hooks/useTasks";
+import ColumnContainer from "./ColumnContainer";
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
+import { createPortal } from "react-dom";
 
 export default function Home() {
   const [username, setUsername] = useState("");
-
-  const { columns, addColumn, removeColumn } = useColumns();
+  const { columns, addColumn, removeColumn, setColumns } = useColumns();
   const { tasks, addTask, removeTask } = useTasks();
-  console.log(columns);
-  console.log(tasks);
+
+  const columnsId = useMemo(
+    () => columns.map((column) => column.column_id),
+    [columns]
+  );
+
+  const [activeColumn, setActiveColumn] = useState(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
 
   useEffect(() => {
     const userName = localStorage.getItem("userName");
@@ -33,13 +55,13 @@ export default function Home() {
             "📦 Kanban",
             "🔑 Login",
           ].map((item, index) => (
-            <a
+            <Link
               key={index}
-              href="#"
+              to="#"
               className="flex items-center space-x-2 text-gray-700 hover:text-black"
             >
               {item}
-            </a>
+            </Link>
           ))}
         </nav>
       </aside>
@@ -51,7 +73,7 @@ export default function Home() {
           <span className="text-lg font-semibold">Dashboard &gt; Kanban</span>
           <div className="flex items-center space-x-4">
             <button className="text-gray-500 hover:text-black">⚙️</button>
-            <button className="text-gray-500 hover:text-black">
+            <button className="text-gray-500 hover:text-black ">
               {username}
             </button>
           </div>
@@ -61,68 +83,72 @@ export default function Home() {
         <div className="flex-1 p-6 bg-gradient-to-b from-gray-100 to-gray-300 overflow-auto">
           <div className="flex justify-between items-center text-3xl font-bold mb-2">
             <p>Kanban</p>
-            <button className="text-gray-500 hover:text-black text-lg border-2 rounded-full px-4 py-1">
-              + Add new Task
+            {/* Add New Section */}
+            <button
+              onClick={() => {
+                const newColumn = prompt("Enter a title for the new section:");
+                addColumn(newColumn);
+              }}
+              className="px-4 py-2 bg-gray-200 text-center rounded-lg flex-shrink-0 text-2xl"
+            >
+              + Add New Section
             </button>
           </div>
           <p className="text-sm text-gray-600 mb-4">
             Manage tasks by drag and drop (dnd)
           </p>
 
-          {/* Board Container */}
-          <div className="flex flex-nowrap overflow-x-auto space-x-6 max-w-full p-2">
-            {/* Column: Todo */}
-            {columns.map((column) => (
-              <div
-                id={column.column_id}
-                key={column.column_id}
-                className="w-64 bg-white rounded-lg shadow-md p-4 flex-shrink-0"
-              >
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-semibold">{column.title}</h3>
-                  <button className="text-gray-500 hover:text-black">⋮</button>
-                </div>
+          <DndContext
+            sensors={sensors}
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+          >
+            <div className="flex gap-4 p-4 overflow-x-auto overflow-y-hidden">
+              <SortableContext items={columnsId}>
+                {columns.map((column) => (
+                  <ColumnContainer
+                    column={column}
+                    tasks={tasks}
+                    key={column.column_id}
+                  />
+                ))}
+              </SortableContext>
+            </div>
 
-                {/* Tasks */}
-                {tasks
-                  .filter((task) => task.column_id === column.column_id)
-                  .map((task) => (
-                    <div
-                      key={task.task_id}
-                      className="bg-gray-200 rounded-lg p-2 mb-2"
-                    >
-                      <p className="font-semibold border-b-2 border-slate-400">
-                        {task.title}
-                      </p>
-                      <p>{task.description}</p>
-                      <div className="flex justify-end space-x-2">
-                        <button className="text-gray-500 hover:text-black">
-                          ✏️
-                        </button>
-                        <button
-                          onClick={() => removeTask(task.task_id)}
-                          className="text-gray-500 hover:text-black"
-                        >
-                          🗑
-                        </button>
-                        ️
-                      </div>
-                    </div>
-                  ))}
-                <p className="text-center text-gray-500">+ Add New Task</p>
-              </div>
-            ))}
-
-            {/* Add New Section */}
-            <button
-              onClick={addColumn}
-              className="w-64 h-20 bg-gray-200 text-center rounded-lg flex-shrink-0"
-            >
-              + Add New Section
-            </button>
-          </div>
+            {createPortal(
+              <DragOverlay>
+                {activeColumn && <ColumnContainer column={activeColumn} />}
+              </DragOverlay>,
+              document.body
+            )}
+          </DndContext>
         </div>
       </div>
     </div>
   );
+
+  function onDragStart(event) {
+    console.log("onDragStart", event);
+    const { active } = event;
+    const activeColumn = columns.find(
+      (column) => column.column_id === active.id
+    );
+    setActiveColumn(activeColumn || null);
+  }
+
+  async function onDragEnd(event) {
+    console.log("onDragEnd", event);
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = columns.findIndex(
+      (column) => column.column_id === active.id
+    );
+    const newIndex = columns.findIndex(
+      (column) => column.column_id === over.id
+    );
+
+    // Actualiza el orden de las columnas en el estado local
+    setColumns((prevColumns) => arrayMove(prevColumns, oldIndex, newIndex));
+  }
 }

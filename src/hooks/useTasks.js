@@ -23,5 +23,5 @@ export const useTasks = () => {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  return { tasks, addTask, removeTask };
+  return { tasks, addTask, removeTask, setTasks };
 };
