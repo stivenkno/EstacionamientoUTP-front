@@ -92,9 +92,13 @@ export default function Home() {
             {/* Add New Section */}
             <button
               onClick={() => {
-                const newColumn = prompt("Enter a title for the new section:");
-                addColumn(newColumn);
-                console.log(columns);
+                const newColumnTitle = prompt(
+                  "Enter a title for the new section:"
+                );
+                if (newColumnTitle) {
+                  const updatedColumns = addColumn(newColumnTitle);
+                  setColumns(updatedColumns); // Sincroniza el estado local
+                }
               }}
               className="px-4 py-2 bg-gray-200 text-center rounded-lg flex-shrink-0 text-2xl"
             >

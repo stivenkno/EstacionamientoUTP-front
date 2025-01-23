@@ -14,7 +14,7 @@ export const useColumns = () => {
       setColumns(data);
     }
     fetchColumns();
-  }, [columns]);
+  }, []);
 
   const addColumn = async (title) => {
     if (!title) return; // Evita columnas con título vacío
