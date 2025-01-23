@@ -3,8 +3,8 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import { useEffect } from "react";
-import Profile from "./components/Profile";
-import EditProfile from "./components/Editprofile";
+import Profile from "./components/Profile.jsx";
+import EditProfile from "./components/EditProfile.jsx";
 
 export default function App() {
   return (
