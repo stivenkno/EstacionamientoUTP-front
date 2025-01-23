@@ -74,10 +74,7 @@ export default function Register() {
             </button>
             <p className="text-center">
               Already have an account?{" "}
-              <Link
-                to="/login"
-                className="text-black font-semibold hover:underline"
-              >
+              <Link to="/" className="text-black font-semibold hover:underline">
                 Login
               </Link>
             </p>

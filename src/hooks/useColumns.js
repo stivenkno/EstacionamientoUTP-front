@@ -7,7 +7,7 @@ import {
 
 export const useColumns = () => {
   const [columns, setColumns] = useState([]);
-  console.log(columns);
+
   useEffect(() => {
     async function fetchColumns() {
       const data = await getColumns();
@@ -26,7 +26,7 @@ export const useColumns = () => {
   const removeColumn = async (id) => {
     await deleteColumn(id);
     setColumns((prevColumns) =>
-      prevColumns.filter((column) => column.id !== id)
+      prevColumns.filter((column) => column.column_id !== id)
     );
   };
 
