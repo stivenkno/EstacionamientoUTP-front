@@ -37,10 +37,6 @@ export default function Home() {
   );
 
   useEffect(() => {
-    console.log("columns", columns);
-  }, [columns]);
-
-  useEffect(() => {
     const userName = localStorage.getItem("userName");
     if (userName) {
       setUsername(userName);
@@ -98,6 +94,7 @@ export default function Home() {
               onClick={() => {
                 const newColumn = prompt("Enter a title for the new section:");
                 addColumn(newColumn);
+                console.log(columns);
               }}
               className="px-4 py-2 bg-gray-200 text-center rounded-lg flex-shrink-0 text-2xl"
             >
