@@ -21,6 +21,12 @@ export const useColumns = () => {
     const position = columns.length + 1; // Calcula la posición de la nueva columna
     const newColumn = await createColumn({ title, position });
     setColumns([...columns, newColumn]); // Actualiza el estado
+    async function fetchColumns() {
+      const data = await getColumns();
+      setColumns(data);
+    }
+    fetchColumns();
+    return columns;
   };
 
   const removeColumn = async (id) => {

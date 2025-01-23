@@ -43,6 +43,20 @@ export default function Home() {
     }
   }, []);
 
+  const handleAddColumn = async () => {
+    const newColumnTitle = prompt("Enter a title for the new section:");
+    if (newColumnTitle) {
+      try {
+        // Esperamos a que se resuelva la promesa de addColumn
+        const updatedColumns = await addColumn(newColumnTitle);
+        setColumns(updatedColumns);
+        console.log(columns);
+      } catch (error) {
+        console.error("Error adding column:", error);
+      }
+    }
+  };
+
   return (
     <div className="h-screen flex bg-gray-100 overflow-hidden">
       {/* Sidebar */}
@@ -91,15 +105,7 @@ export default function Home() {
             <p>Kanban</p>
             {/* Add New Section */}
             <button
-              onClick={() => {
-                const newColumnTitle = prompt(
-                  "Enter a title for the new section:"
-                );
-                if (newColumnTitle) {
-                  const updatedColumns = addColumn(newColumnTitle);
-                  setColumns(updatedColumns); // Sincroniza el estado local
-                }
-              }}
+              onClick={handleAddColumn}
               className="px-4 py-2 bg-gray-200 text-center rounded-lg flex-shrink-0 text-2xl"
             >
               + Add New Section
