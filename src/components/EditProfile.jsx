@@ -45,36 +45,14 @@ export default function EditProfile() {
           >
             📊 Home
           </Link>
-          <Link
-            to="/chat-bot"
-            className="flex items-center text-gray-700 hover:text-black"
-          >
-            🤖 Chat Bot
-          </Link>
-          <Link
-            to="/user"
-            className="flex items-center text-gray-700 hover:text-black"
-          >
-            👤 User
-          </Link>
-          <Link
-            to="/employee"
-            className="flex items-center text-gray-700 hover:text-black"
-          >
-            🧑 Employee
-          </Link>
+
           <Link
             to="/profile"
             className="flex items-center text-gray-700 hover:text-black"
           >
             📁 Profile
           </Link>
-          <Link
-            to="/kanban"
-            className="flex items-center text-gray-700 hover:text-black"
-          >
-            📦 Kanban
-          </Link>
+
           <Link
             to="/login"
             className="flex items-center text-gray-700 hover:text-black"
