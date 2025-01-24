@@ -52,24 +52,61 @@ export default function Home() {
       isFirstRender.current = false; // Cambia el estado para futuros renders
       return;
     }
-    setColumns(columns);
-    console.log(columns);
-    updateAlColumns(columns);
-  }, [columns, setColumns, updateAlColumns]);
+
+    // Lógica para sincronizar las columnas con el backend
+    const syncColumns = async () => {
+      try {
+        await updateAlColumns(columns); // Llamada para actualizar en el backend
+        console.log("Las columnas han sido sincronizadas:", columns);
+      } catch (error) {
+        console.error("Error al actualizar las columnas:", error);
+      }
+    };
+
+    syncColumns();
+  }, [columns, updateAlColumns]);
 
   const handleAddColumn = async () => {
     const newColumnTitle = prompt("Enter a title for the new section:");
     if (newColumnTitle) {
       try {
-        // Esperamos a que se resuelva la promesa de addColumn
         const updatedColumns = await addColumn(newColumnTitle);
         setColumns(updatedColumns);
-        setActualizar(true);
+        await updateAlColumns(updatedColumns); // Sincroniza con el backend
       } catch (error) {
         console.error("Error adding column:", error);
       }
     }
   };
+
+  async function onDragEnd(event) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = columns.findIndex(
+      (column) => column.column_id === active.id
+    );
+    const newIndex = columns.findIndex(
+      (column) => column.column_id === over.id
+    );
+
+    const reorderedColumns = arrayMove(columns, oldIndex, newIndex);
+    setColumns(reorderedColumns);
+
+    try {
+      await updateAlColumns(reorderedColumns); // Sincroniza el nuevo orden
+    } catch (error) {
+      console.error("Error al actualizar el orden de las columnas:", error);
+    }
+  }
+
+  function onDragStart(event) {
+    const { active } = event;
+    const activeColumn = columns.find(
+      (column) => column.column_id === active.id
+    );
+    setActiveColumn(activeColumn || null);
+  }
 
   return (
     <div className="h-screen flex bg-gray-100 overflow-hidden">
@@ -159,29 +196,4 @@ export default function Home() {
       </div>
     </div>
   );
-
-  function onDragStart(event) {
-    console.log("onDragStart", event);
-    const { active } = event;
-    const activeColumn = columns.find(
-      (column) => column.column_id === active.id
-    );
-    setActiveColumn(activeColumn || null);
-  }
-
-  async function onDragEnd(event) {
-    console.log("onDragEnd", event);
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    const oldIndex = columns.findIndex(
-      (column) => column.column_id === active.id
-    );
-    const newIndex = columns.findIndex(
-      (column) => column.column_id === over.id
-    );
-
-    // Actualiza el orden de las columnas en el estado local
-    setColumns((prevColumns) => arrayMove(prevColumns, oldIndex, newIndex));
-  }
 }
