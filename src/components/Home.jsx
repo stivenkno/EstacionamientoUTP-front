@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useColumns } from "../hooks/useColumns";
 import { useTasks } from "../hooks/useTasks";
 import { useOrderColumns } from "../hooks/useOrderColumns";
+
 import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
@@ -16,8 +17,11 @@ import { createPortal } from "react-dom";
 
 export default function Home() {
   const [username, setUsername] = useState("");
-  const { columns, addColumn, removeColumn, setColumns } = useColumns();
+  const { columns, addColumn, removeColumn, setColumns, updateAlColumns } =
+    useColumns();
+  const [actualizar, setActualizar] = useState(false);
   const { columnOrder, updateColumnOrder, setColumnOrder } = useOrderColumns();
+  const isFirstRender = useRef(true);
 
   const { tasks, addTask, removeTask } = useTasks();
 
@@ -43,6 +47,16 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false; // Cambia el estado para futuros renders
+      return;
+    }
+    setColumns(columns);
+    console.log(columns);
+    updateAlColumns(columns);
+  }, [columns, setColumns, updateAlColumns]);
+
   const handleAddColumn = async () => {
     const newColumnTitle = prompt("Enter a title for the new section:");
     if (newColumnTitle) {
@@ -50,7 +64,7 @@ export default function Home() {
         // Esperamos a que se resuelva la promesa de addColumn
         const updatedColumns = await addColumn(newColumnTitle);
         setColumns(updatedColumns);
-        console.log(columns);
+        setActualizar(true);
       } catch (error) {
         console.error("Error adding column:", error);
       }
@@ -92,15 +106,17 @@ export default function Home() {
         <nav className="bg-white shadow p-4 flex justify-between items-center">
           <span className="text-lg font-semibold">Dashboard &gt; Kanban</span>
           <div className="flex items-center space-x-4">
-            <button className="text-gray-500 hover:text-black">⚙️</button>
             <button className="text-gray-500 hover:text-black ">
               {username}
+            </button>
+            <button className="text-gray-500 hover:text-black text-4xl">
+              X
             </button>
           </div>
         </nav>
 
         {/* Kanban Board */}
-        <div className="flex-1 p-6 bg-gradient-to-b from-gray-100 to-gray-300 overflow-auto">
+        <div className="flex-1 p-6 h-6 bg-gradient-to-b from-gray-100 to-gray-300 overflow-auto">
           <div className="flex justify-between items-center text-3xl font-bold mb-2">
             <p>Kanban</p>
             {/* Add New Section */}

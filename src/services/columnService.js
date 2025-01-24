@@ -29,6 +29,18 @@ export const updateColumn = async (columnId, column) => {
     return null;
   }
 };
+export const updateAllColumns = async (columns) => {
+  try {
+    const response = await api.post("/columns/updatecolumn", {
+      data: columns,
+    });
+    const response2 = await api.get("/columns");
+    return response2.data;
+  } catch (error) {
+    console.error("Error al actualizar las columnas:", error);
+    return null;
+  }
+};
 
 export const deleteColumn = async (columnId) => {
   try {

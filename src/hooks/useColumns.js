@@ -3,6 +3,7 @@ import {
   getColumns,
   createColumn,
   deleteColumn,
+  updateAllColumns,
 } from "../services/columnService";
 
 export const useColumns = () => {
@@ -16,16 +17,22 @@ export const useColumns = () => {
     fetchColumns();
   }, []);
 
+  const updateAlColumns = async (columns) => {
+    const response = await updateAllColumns(columns);
+    console.log(response, "response");
+  };
   const addColumn = async (title) => {
     if (!title) return; // Evita columnas con título vacío
     const position = columns.length + 1; // Calcula la posición de la nueva columna
-    const newColumn = await createColumn({ title, position });
-    setColumns([...columns, newColumn]); // Actualiza el estado
+    await createColumn({ title, position });
+
     async function fetchColumns() {
       const data = await getColumns();
+      console.log(data, "data");
       setColumns(data);
     }
     fetchColumns();
+
     return columns;
   };
 
@@ -36,5 +43,12 @@ export const useColumns = () => {
     );
   };
 
-  return { columns, addColumn, removeColumn, setColumns, getColumns };
+  return {
+    columns,
+    addColumn,
+    removeColumn,
+    setColumns,
+    getColumns,
+    updateAlColumns,
+  };
 };
