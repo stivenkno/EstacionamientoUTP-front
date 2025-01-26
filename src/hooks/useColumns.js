@@ -8,7 +8,7 @@ import {
 
 export const useColumns = () => {
   const [columns, setColumns] = useState([]);
-
+  console.log("Sé montó el hook useColumns");
   useEffect(() => {
     async function fetchColumns() {
       const data = await getColumns();
@@ -19,7 +19,6 @@ export const useColumns = () => {
 
   const updateAlColumns = async (columns) => {
     const response = await updateAllColumns(columns);
-    console.log(response, "response");
   };
   const addColumn = async (title) => {
     if (!title) return; // Evita columnas con título vacío
@@ -28,7 +27,6 @@ export const useColumns = () => {
 
     async function fetchColumns() {
       const data = await getColumns();
-      console.log(data, "data");
       setColumns(data);
     }
     fetchColumns();

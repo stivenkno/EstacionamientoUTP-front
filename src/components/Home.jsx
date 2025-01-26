@@ -16,21 +16,18 @@ import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
 
 export default function Home() {
+  console.log("Se montó el componente Home");
   const [username, setUsername] = useState("");
-  const { columns, addColumn, removeColumn, setColumns, updateAlColumns } =
-    useColumns();
-  const [actualizar, setActualizar] = useState(false);
-  const { columnOrder, updateColumnOrder, setColumnOrder } = useOrderColumns();
-  const isFirstRender = useRef(true);
-
+  const { columns, addColumn, setColumns, updateAlColumns } = useColumns();
+  console.log("Columnas actualizadas", columns);
   const { tasks, addTask, removeTask } = useTasks();
+  const isFirstRender = useRef(true);
+  const [activeColumn, setActiveColumn] = useState(null);
 
   const columnsId = useMemo(
     () => columns.map((column) => column.column_id),
     [columns]
   );
-
-  const [activeColumn, setActiveColumn] = useState(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -47,32 +44,13 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false; // Cambia el estado para futuros renders
-      return;
-    }
-
-    // Lógica para sincronizar las columnas con el backend
-    const syncColumns = async () => {
-      try {
-        await updateAlColumns(columns); // Llamada para actualizar en el backend
-        console.log("Las columnas han sido sincronizadas:", columns);
-      } catch (error) {
-        console.error("Error al actualizar las columnas:", error);
-      }
-    };
-
-    syncColumns();
-  }, [columns, updateAlColumns]);
-
   const handleAddColumn = async () => {
     const newColumnTitle = prompt("Enter a title for the new section:");
     if (newColumnTitle) {
       try {
         const updatedColumns = await addColumn(newColumnTitle);
         setColumns(updatedColumns);
-        await updateAlColumns(updatedColumns); // Sincroniza con el backend
+        //await updateAlColumns(updatedColumns); // Sincroniza con el backend
       } catch (error) {
         console.error("Error adding column:", error);
       }
