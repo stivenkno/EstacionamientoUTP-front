@@ -3,7 +3,6 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { useColumns } from "../hooks/useColumns";
 import { useTasks } from "../hooks/useTasks";
 import { useOrderColumns } from "../hooks/useOrderColumns";
-
 import ColumnContainer from "./ColumnContainer";
 import {
   DndContext,
@@ -14,6 +13,7 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
+import { Navigate } from "react-router-dom";
 
 export default function Home() {
   console.log("Se montó el componente Home");
@@ -36,13 +36,22 @@ export default function Home() {
       },
     })
   );
-
   useEffect(() => {
     const userName = localStorage.getItem("userName");
+
     if (userName) {
       setUsername(userName);
     }
   }, []);
+
+  // Verifica si el token está en localStorage
+  const token = localStorage.getItem("token");
+
+  // Si no hay token, redirige al login
+  if (!token) {
+    alert("Debes iniciar sesión para acceder a esta página.");
+    return <Navigate to="/" replace />;
+  }
 
   const handleAddColumn = async () => {
     const newColumnTitle = prompt("Enter a title for the new section:");
@@ -55,6 +64,15 @@ export default function Home() {
         console.error("Error adding column:", error);
       }
     }
+
+    setTimeout(() => {
+      const container = document.getElementById("szs");
+
+      container.scrollTo({
+        left: container.scrollWidth, // Lleva el scroll horizontal al final
+        behavior: "smooth", // Desplazamiento suave
+      });
+    }, 700);
   };
 
   async function onDragEnd(event) {
@@ -107,10 +125,11 @@ export default function Home() {
           </Link>
 
           <Link
-            to="/login"
+            to="/"
             className="flex items-center text-gray-700 hover:text-black"
+            onClick={() => localStorage.clear()}
           >
-            🔑 Login
+            🔑 Log Out
           </Link>
         </nav>
       </aside>
@@ -151,7 +170,10 @@ export default function Home() {
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
           >
-            <div className="flex gap-4 p-4 overflow-x-auto overflow-y-hidden">
+            <div
+              id="szs"
+              className="flex gap-4 p-4 overflow-x-auto overflow-y-hidden"
+            >
               <SortableContext items={columnsId}>
                 {columns.map((column) => (
                   <ColumnContainer
