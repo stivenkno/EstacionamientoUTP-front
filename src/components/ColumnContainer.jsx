@@ -1,9 +1,10 @@
 // ColumnContainer.jsx
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { deleteColumn } from "../services/columnService";
 
 export default function ColumnContainer(props) {
-  const { column, tasks, deleteColumn } = props;
+  const { column, tasks, removeColumn } = props;
 
   const {
     setNodeRef,
@@ -40,7 +41,7 @@ export default function ColumnContainer(props) {
       >
         {column.title}
         <button
-          onClick={() => deleteColumn(column.column_id)}
+          onClick={() => removeColumn(column.column_id)}
           className="bg-red-600 hover:bg-red-700 font-bold px-2 rounded"
         >
           DELETE
@@ -55,6 +56,10 @@ export default function ColumnContainer(props) {
               {task.title}
             </div>
           ))}
+
+      <button className="bg-blue-300 hover:bg-blue-700 font-bold py-2 px-4 rounded mt-2">
+        Add Task
+      </button>
     </div>
   );
 }

@@ -18,7 +18,8 @@ import { Navigate } from "react-router-dom";
 export default function Home() {
   console.log("Se montó el componente Home");
   const [username, setUsername] = useState("");
-  const { columns, addColumn, setColumns, updateAlColumns } = useColumns();
+  const { columns, addColumn, setColumns, updateAlColumns, removeColumn } =
+    useColumns();
   console.log("Columnas actualizadas", columns);
   const { tasks, addTask, removeTask } = useTasks();
   const isFirstRender = useRef(true);
@@ -172,7 +173,7 @@ export default function Home() {
           >
             <div
               id="szs"
-              className="flex gap-4 p-4 overflow-x-auto overflow-y-hidden"
+              className="flex bg-slate-400 gap-4 p-4 overflow-x-auto overflow-y-hidden"
             >
               <SortableContext items={columnsId}>
                 {columns.map((column) => (
@@ -180,6 +181,7 @@ export default function Home() {
                     column={column}
                     tasks={tasks}
                     key={column.column_id}
+                    removeColumn={removeColumn}
                   />
                 ))}
               </SortableContext>

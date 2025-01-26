@@ -44,7 +44,10 @@ export const updateAllColumns = async (columns) => {
 
 export const deleteColumn = async (columnId) => {
   try {
-    const response = await api.delete(`/columns/${columnId}`);
+    const response = await api.delete(`/columns`, {
+      data: { column_id: columnId },
+    });
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error al eliminar la columna:", error);
