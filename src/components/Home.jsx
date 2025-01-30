@@ -21,7 +21,8 @@ export default function Home() {
   const { columns, addColumn, setColumns, updateAlColumns, removeColumn } =
     useColumns();
   console.log("Columnas actualizadas", columns);
-  const { tasks, addTask, removeTask } = useTasks();
+  const { tasks, addTask, removeTask, setTasks } = useTasks();
+
   const isFirstRender = useRef(true);
   const [activeColumn, setActiveColumn] = useState(null);
 
@@ -180,6 +181,10 @@ export default function Home() {
                   <ColumnContainer
                     column={column}
                     tasks={tasks}
+                    setTasks={setTasks}
+                    setColumns={setColumns}
+                    addTask={addTask}
+                    removeTask={removeTask}
                     key={column.column_id}
                     removeColumn={removeColumn}
                   />

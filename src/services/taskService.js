@@ -22,7 +22,7 @@ export const createTask = async (task) => {
 
 export const updateTask = async (taskId, task) => {
   try {
-    const response = await api.put(`/tasks/${taskId}`, task);
+    const response = await api.put(`/tasks`, task);
     return response.data;
   } catch (error) {
     console.error("Error al actualizar la tarea:", error);
@@ -32,7 +32,7 @@ export const updateTask = async (taskId, task) => {
 
 export const deleteTask = async (taskId) => {
   try {
-    const response = await api.delete(`/tasks/${taskId}`);
+    const response = await api.delete(`/tasks`);
     return response.data;
   } catch (error) {
     console.error("Error al eliminar la tarea:", error);

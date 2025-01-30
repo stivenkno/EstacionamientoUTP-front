@@ -2,9 +2,22 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { deleteColumn } from "../services/columnService";
+import { useTasks } from "../hooks/useTasks";
+import { useState } from "react";
 
 export default function ColumnContainer(props) {
-  const { column, tasks, removeColumn } = props;
+  const { column, tasks, addTask, removeColumn, setTasks, setColumns } = props;
+  const { actualizar, setActualizar } = useState(false);
+
+  const handdleAddTask = () => {
+    const title = prompt("Ingrese el titulo de la tarea");
+    const description = prompt("Ingrese la descripcion de la tarea");
+    let position = tasks.length + 1;
+
+    addTask({ title, description, position, column_id: column.column_id });
+
+    setTasks([...tasks]);
+  };
 
   const {
     setNodeRef,
@@ -54,10 +67,14 @@ export default function ColumnContainer(props) {
           .map((task) => (
             <div key={task.id} className="p-4 bg-slate-400 rounded-lg">
               {task.title}
+              <p>{task.description}</p>
             </div>
           ))}
 
-      <button className="bg-blue-300 hover:bg-blue-700 font-bold py-2 px-4 rounded mt-2">
+      <button
+        className="bg-blue-300 hover:bg-blue-700 font-bold py-2 px-4 rounded mt-2"
+        onClick={handdleAddTask}
+      >
         Add Task
       </button>
     </div>
