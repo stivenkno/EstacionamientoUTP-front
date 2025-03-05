@@ -14,8 +14,9 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      //Instancia peticion login
       const response = await axios.post(
-        "https://api-rest-kanban-b952.onrender.com/api/login",
+        "https://estacionamientoutp.onrender.com/api/login",
         formData
       );
 
@@ -51,7 +52,7 @@ export default function Login() {
     <>
       <nav className="bg-black text-white p-4 flex justify-between">
         <Link to="/" className="text-xl font-bold">
-          Kanban App
+          PARK UTP
         </Link>
       </nav>
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-r ">

@@ -9,6 +9,9 @@ const apiInstance = axios.create({
   },
 });
 
+".default.headers.common: Para poner por default el token en todas las consultas"
+
+
 export function getToken() {
   return (apiInstance.defaults.headers.common[
     "Authorization"

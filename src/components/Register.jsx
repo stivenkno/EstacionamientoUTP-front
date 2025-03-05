@@ -18,7 +18,7 @@ export default function Register() {
     try {
       console.log(formData);
       const response = await axios.post(
-        "https://api-rest-kanban-b952.onrender.com/api/register",
+        "https://estacionamientoutp.onrender.com/api/register",
         formData
       );
       alert("Registro exitoso!", response.data);
@@ -33,7 +33,7 @@ export default function Register() {
     <>
       <nav className="bg-black text-white p-4 flex justify-between">
         <Link to="/" className="text-xl font-bold">
-          Kanban App
+          PARK UTP
         </Link>
       </nav>
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-r  to-black p-4 sm:p-8">
