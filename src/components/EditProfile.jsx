@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import QRCode from "react-qr-code";
 import apiInstance from "../services/api";
 
 export default function EditProfile() {
-  const [user, setUser] = useState({});
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [user, setUser] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     async function fetchUser() {
@@ -17,107 +17,85 @@ export default function EditProfile() {
       }
     }
     fetchUser();
-  }, [user]);
+  }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await apiInstance.put("/editprofile", {
-        username: name,
-        email: email,
-      });
-      setUser(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error al actualizar el perfil:", error);
-    }
-  };
+  if (!user) {
+    return (
+      <div className="flex justify-center items-center h-screen text-xl font-semibold">
+        Cargando...
+      </div>
+    );
+  }
 
   return (
-    <div className="h-screen flex bg-gray-100 overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md p-6 space-y-6 flex-shrink-0">
-        <h1 className="text-2xl font-bold">Connetiz</h1>
-        <nav className="space-y-4">
-          <Link
-            to="/home"
-            className="flex items-center text-gray-700 hover:text-black"
-          >
-            📊 Home
-          </Link>
+    <div className="h-screen flex flex-col md:flex-row bg-gray-100">
+      {/* Botón de menú en móviles */}
+      <button
+        className="fixed top-4 left-4 z-50 md:hidden p-3 bg-blue-700 text-white rounded-md shadow-md"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        {menuOpen ? "✖" : "☰"}
+      </button>
 
-          <Link
-            to="/profile"
-            className="flex items-center text-gray-700 hover:text-black"
-          >
-            📁 Profile
-          </Link>
-
-          <Link
-            to="/login"
-            className="flex items-center text-gray-700 hover:text-black"
-          >
-            🔑 Login
-          </Link>
-        </nav>
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Navbar */}
-        <nav className="bg-white shadow p-4 flex justify-between items-center">
-          <span className="text-lg font-semibold">Dashboard &gt; Kanban</span>
-          <div className="flex items-center space-x-4">
-            <button className="text-gray-500 hover:text-black">⚙️</button>
-            <button className="text-gray-500 hover:text-black ">
-              {user.username}
-            </button>
-          </div>
-        </nav>
-        <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg h-screen w-screen m-[100px]">
-          <h1 className="text-2xl font-bold mb-6 text-gray-800">
-            Editar Perfil
-          </h1>
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Nombre
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Correo Electrónico
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+      {/* Navbar lateral */}
+      <nav
+        className={`fixed inset-y-0 left-0 w-64 bg-blue-700 text-white flex flex-col items-center py-8 transition-transform duration-300 ${
+          menuOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:relative md:flex`}
+      >
+        <h1 className="text-2xl font-bold mb-8">🚗 Parking App</h1>
+        <ul className="space-y-4 w-full text-center">
+          <li>
+            <Link
+              to="/home"
+              className="block py-3 text-lg hover:bg-blue-600 rounded-md transition"
+              onClick={() => setMenuOpen(false)}
             >
-              Guardar Cambios
-            </button>
-          </form>
+              🏠 Inicio
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/QR"
+              className="block py-3 text-lg hover:bg-blue-600 rounded-md transition"
+              onClick={() => setMenuOpen(false)}
+            >
+              🎟️ Generar QR
+            </Link>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Contenido principal */}
+      <div className="flex-1 flex flex-col  p-6">
+        <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg mt-10 flex flex-col md:flex-row gap-8 p-6">
+          {/* Datos del usuario */}
+          <div className="w-full md:w-1/2">
+            <h1 className="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">
+              Información Personal
+            </h1>
+            <div className="space-y-4 text-lg">
+              <p className="text-gray-700">
+                <span className="font-semibold">👤 Nombre:</span>{" "}
+                {user.username}
+              </p>
+              <p className="text-gray-700">
+                <span className="font-semibold">📧 Correo Electrónico:</span>{" "}
+                {user.email}
+              </p>
+            </div>
+          </div>
+
+          {/* Sección QR */}
+          <div className="w-full md:w-1/2 flex flex-col items-center justify-center bg-gray-50 p-6 rounded-lg border">
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">
+              Código QR
+            </h2>
+            <QRCode value={JSON.stringify(user)} size={180} />
+            <p className="text-sm text-gray-500 mt-2">
+              Escanea para Solicitar un Cupo
+            </p>
+          </div>
         </div>
       </div>
     </div>

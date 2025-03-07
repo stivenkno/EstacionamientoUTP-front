@@ -10,6 +10,7 @@ export default function Profile() {
       try {
         const response = await apiInstance.get("/profile");
         setUser(response.data);
+        console.log(user);
       } catch (error) {
         console.error("Error al obtener el perfil:", error);
       }

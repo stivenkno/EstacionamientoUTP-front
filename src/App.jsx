@@ -3,7 +3,7 @@ import Login from "./components/Login.jsx";
 import Register from "./components/Register.jsx";
 import Home from "./components/Home.jsx";
 import { useEffect } from "react";
-import Profile from "./components/Profile.jsx";
+
 import EditProfile from "./components/EditProfile.jsx";
 
 export default function App() {
@@ -13,8 +13,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/editprofile" element={<EditProfile />} />
+        <Route path="/QR" element={<EditProfile />} />
       </Routes>
     </>
   );
