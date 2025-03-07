@@ -1,8 +1,25 @@
 import { useParking } from "../contexts/ParkingContext";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import apiInstance from "../services/api";
 
 export default function Home() {
-  const { parkings } = useParking();
+  const { parkings, setParkings } = useParking();
+
+  const getParks = async () => {
+    try {
+      const response = await apiInstance.get(
+        "https://estacionamientoutp.onrender.com/api/parks"
+      );
+      setParkings(response.data);
+    } catch (error) {
+      console.error("Error al obtener los parques:", error);
+    }
+  };
+
+  useEffect(() => {
+    getParks();
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
