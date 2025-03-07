@@ -22,6 +22,14 @@ export default function Home() {
     getParks();
   }, []);
 
+  // Mapeo de colores para evitar errores con Tailwind
+  const colorClasses = {
+    blue: "border-blue-500 text-blue-600",
+    green: "border-green-500 text-green-600",
+    yellow: "border-yellow-500 text-yellow-600",
+    red: "border-red-500 text-red-600",
+  };
+
   return (
     <div className="h-screen flex flex-col md:flex-row bg-gray-100">
       {/* Botón de menú en móviles */}
@@ -62,10 +70,19 @@ export default function Home() {
       </nav>
 
       {/* Contenido principal */}
-      <div className="flex-1 flex flex-col  p-6 items-center justify-center">
+      <div className="flex-1 flex flex-col p-6 items-center justify-center">
         <h1 className="text-2xl font-bold text-gray-800 mb-6">
           🚗 CUPOS DISPONIBLES
         </h1>
+
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mb-4"
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          ACTUALIZAR
+        </button>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-5xl">
           {[
@@ -92,12 +109,18 @@ export default function Home() {
           ].map((park, index) => (
             <div
               key={index}
-              className={`bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-${park.color}-500`}
+              className={`bg-white shadow-md rounded-lg p-6 text-center border-t-4 ${
+                colorClasses[park.color]
+              }`}
             >
               <h2 className="text-lg font-semibold text-gray-700">
                 {park.name}
               </h2>
-              <p className={`text-4xl font-bold text-${park.color}-600 mt-2`}>
+              <p
+                className={`text-4xl font-bold ${
+                  colorClasses[park.color]
+                } mt-2`}
+              >
                 {park.count}
               </p>
               <p className="text-sm text-gray-500">Cupos disponibles</p>
