@@ -4,8 +4,6 @@ import Register from "./components/Register.jsx";
 import Home from "./components/Home.jsx";
 import Administrador from "./components/Administrador.jsx";
 
-import { useEffect } from "react";
-
 import EditProfile from "./components/EditProfile.jsx";
 
 export default function App() {
