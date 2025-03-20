@@ -31,6 +31,14 @@ export default function Login() {
         //Aqui va la informacion del usuario
         console.log(response.data);
 
+        if (
+          formData.email === "admin@gmail.com" &&
+          formData.password === "admin"
+        ) {
+          navigate("/admin");
+          return;
+        }
+
         // Validar el token antes de navegar
         const validateToken = localStorage.getItem("token");
         if (validateToken) {
