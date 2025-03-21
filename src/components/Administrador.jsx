@@ -6,7 +6,7 @@ const Administrador = () => {
   const scannerRef = useRef(null);
 
   useEffect(() => {
-    const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 });
+    const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
     console.log(scanner);
 
     scanner.render(
@@ -21,9 +21,8 @@ const Administrador = () => {
   }, []);
 
   return (
-    <div>
+    <div className="w-screen h-screen flex items-center justify-center">
       <div id="reader" ref={scannerRef}></div>
-      <p>QR: {qrData}</p>
     </div>
   );
 };

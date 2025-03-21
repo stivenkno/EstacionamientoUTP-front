@@ -2,6 +2,10 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import apiInstance from "../services/api";
+import { IoHomeSharp } from "react-icons/io5";
+import { BiQrScan } from "react-icons/bi";
+import { FaUser } from "react-icons/fa";
+import { MdOutlineEmail } from "react-icons/md";
 
 export default function EditProfile() {
   const [user, setUser] = useState(null);
@@ -31,7 +35,7 @@ export default function EditProfile() {
     <div className="h-screen flex flex-col md:flex-row bg-gray-100">
       {/* Botón de menú en móviles */}
       <button
-        className="fixed top-4 left-4 z-50 md:hidden p-3 bg-blue-700 text-white rounded-md shadow-md"
+        className="fixed top-4 left-4 z-50 md:hidden p-3 bg-black text-white rounded-md shadow-md"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? "✖" : "☰"}
@@ -39,48 +43,54 @@ export default function EditProfile() {
 
       {/* Navbar lateral */}
       <nav
-        className={`fixed inset-y-0 left-0 w-64 bg-blue-700 text-white flex flex-col items-center py-8 transition-transform duration-300 ${
+        className={`fixed inset-y-0 left-0 w-64 bg-black text-white flex flex-col items-center py-8 transition-transform duration-300 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 md:relative md:flex`}
       >
-        <h1 className="text-2xl font-bold mb-8">🚗 Parking App</h1>
+        <h1 className="text-2xl font-bold mb-8"> Parking App</h1>
         <ul className="space-y-4 w-full text-center">
           <li>
             <Link
               to="/home"
-              className="block py-3 text-lg hover:bg-blue-600 rounded-md transition"
+              className="flex items-center justify-center gap-2 py-3 text-lg hover:bg-blue-600 rounded-md transition"
               onClick={() => setMenuOpen(false)}
             >
-              🏠 Inicio
+              <IoHomeSharp className="w-5 h-5" />
+              Inicio
             </Link>
           </li>
+
           <li>
             <Link
               to="/QR"
-              className="block py-3 text-lg hover:bg-blue-600 rounded-md transition"
+              className="flex items-center justify-center gap-2 py-3 text-lg hover:bg-blue-600 rounded-md transition"
               onClick={() => setMenuOpen(false)}
             >
-              🎟️ Generar QR
+              <BiQrScan className="w-5 h-5" />
+              Ver QR
             </Link>
           </li>
         </ul>
       </nav>
-
       {/* Contenido principal */}
-      <div className="flex-1 flex flex-col  p-6">
+      <div className="flex-1 flex flex-col  p-6 flex items-center justify-center">
         <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg mt-10 flex flex-col md:flex-row gap-8 p-6">
           {/* Datos del usuario */}
           <div className="w-full md:w-1/2">
             <h1 className="text-2xl font-bold mb-4 text-gray-800 border-b pb-2">
-              Información Personal
+              INFORMACION PERSONAL
             </h1>
             <div className="space-y-4 text-lg">
-              <p className="text-gray-700">
-                <span className="font-semibold">👤 Nombre:</span>{" "}
+              <p className="text-gray-700 flex flex-col gap-2">
+                <span className="font-semibold flex gap-2 items-center">
+                  <FaUser /> Nombre:
+                </span>{" "}
                 {user.username}
               </p>
-              <p className="text-gray-700">
-                <span className="font-semibold">📧 Correo Electrónico:</span>{" "}
+              <p className="text-gray-700 flex flex-col gap-2">
+                <span className="font-semibold flex gap-2 items-center">
+                  <MdOutlineEmail /> Correo Electrónico:
+                </span>{" "}
                 {user.email}
               </p>
             </div>

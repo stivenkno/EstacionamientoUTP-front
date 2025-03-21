@@ -8,6 +8,7 @@ const ParkingContext = createContext();
 // 2️⃣ Crear el proveedor del contexto
 export const ParkingProvider = ({ children }) => {
   const [parkings, setParkings] = useState({});
+  console.log(parkings);
   const getParks = async () => {
     try {
       const response = await apiInstance.get(

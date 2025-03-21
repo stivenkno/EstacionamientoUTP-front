@@ -2,6 +2,8 @@ import { useParking } from "../contexts/ParkingContext";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import apiInstance from "../services/api";
+import { IoHomeSharp } from "react-icons/io5";
+import { BiQrScan } from "react-icons/bi";
 
 export default function Home() {
   const { parkings, setParkings } = useParking();
@@ -34,7 +36,7 @@ export default function Home() {
     <div className="h-screen flex flex-col md:flex-row bg-gray-100">
       {/* Botón de menú en móviles */}
       <button
-        className="fixed top-4 left-4 z-50 md:hidden p-3 bg-blue-700 text-white rounded-md shadow-md"
+        className="fixed top-4 left-4 z-50 md:hidden p-3 bg-black text-white rounded-md shadow-md"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? "✖" : "☰"}
@@ -42,28 +44,31 @@ export default function Home() {
 
       {/* Navbar lateral */}
       <nav
-        className={`fixed inset-y-0 left-0 w-64 bg-blue-700 text-white flex flex-col items-center py-8 transition-transform duration-300 ${
+        className={`fixed inset-y-0 left-0 w-64 bg-black text-white flex flex-col items-center py-8 transition-transform duration-300 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 md:relative md:flex`}
       >
-        <h1 className="text-2xl font-bold mb-8">🚗 Parking App</h1>
+        <h1 className="text-2xl font-bold mb-8"> Parking App</h1>
         <ul className="space-y-4 w-full text-center">
           <li>
             <Link
               to="/home"
-              className="block py-3 text-lg hover:bg-blue-600 rounded-md transition"
+              className="flex items-center justify-center gap-2 py-3 text-lg hover:bg-blue-600 rounded-md transition"
               onClick={() => setMenuOpen(false)}
             >
-              🏠 Inicio
+              <IoHomeSharp className="w-5 h-5" />
+              Inicio
             </Link>
           </li>
+
           <li>
             <Link
               to="/QR"
-              className="block py-3 text-lg hover:bg-blue-600 rounded-md transition"
+              className="flex items-center justify-center gap-2 py-3 text-lg hover:bg-blue-600 rounded-md transition"
               onClick={() => setMenuOpen(false)}
             >
-              🎟️ Generar QR
+              <BiQrScan className="w-5 h-5" />
+              Ver QR
             </Link>
           </li>
         </ul>
@@ -76,7 +81,7 @@ export default function Home() {
         </h1>
 
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md mb-4"
+          className="bg-black hover:bg-gray-500 text-white py-2 px-4 rounded-md mb-4 relative right-0"
           onClick={() => {
             window.location.reload();
           }}

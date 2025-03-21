@@ -12,28 +12,60 @@ html {
 
 /* Contenedor principal del scanner */
 #reader {
-  position: relative;
-  padding: 10px;
-  border: 3px solid #3b82f6; /* Azul Tailwind */
-  border-radius: 10px;
-  background-color: #1e293b; /* Azul oscuro */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 480px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #0a0f1f; /* Azul oscuro */
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.3s ease-in-out;
 }
 
 /* Área de escaneo */
 #reader__scan_region {
   width: 100%;
-  min-height: 200px !important;
-  border: 4px dashed #38bdf8 !important; /* Azul claro */
-  border-radius: 8px;
+  aspect-ratio: 1.2;
+  border-radius: 12px;
+  background: radial-gradient(
+    circle,
+    rgba(17, 24, 39, 0.9),
+    rgba(10, 15, 31, 1)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  overflow: hidden;
+  box-shadow: inset 0px 0px 15px rgba(0, 255, 255, 0.4);
 }
 
-/* Línea roja animada simulando escaneo */
+/* Marco de escaneo con bordes dinámicos */
+#reader__scan_region::before {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  border: 3px solid transparent;
+  border-image: linear-gradient(45deg, cyan, magenta, cyan);
+  border-image-slice: 1;
+  animation: borderPulse 2s infinite ease-in-out;
+}
+
+@keyframes borderPulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* Línea animada de escaneo */
 #reader__scan_region::after {
   content: "";
   position: absolute;
@@ -41,25 +73,34 @@ html {
   left: 0;
   width: 100%;
   height: 4px;
-  background: red;
-  animation: moveLine 1.5s infinite ease-in-out;
+  background: linear-gradient(90deg, cyan, magenta, cyan);
+  box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.7);
+  animation: scanMove 2s infinite ease-in-out;
 }
 
-@keyframes moveLine {
+@keyframes scanMove {
   0% {
-    top: 0;
+    top: 5%;
+  }
+  50% {
+    top: 50%;
   }
   100% {
-    top: 100%;
+    top: 95%;
   }
 }
 
-/* Estilo para el Dashboard */
+/* Estilo del Dashboard */
 #reader__dashboard {
-  width: 100% !important;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  border-radius: 8px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 14px;
+  box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  color: white;
+  font-size: 14px;
 }
 
 /* Área de subir imagen */
@@ -67,46 +108,53 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
   font-size: 16px;
   font-weight: bold;
+  color: #ffffff;
 }
 
 /* Caja de subir imágenes */
 #reader__dashboard_section > div:nth-child(2) {
   text-align: center;
-  margin: 10px auto;
-  width: 80%;
+  margin: 14px auto;
+  width: 100%;
   max-width: 400px;
-  border: 4px dashed #94a3b8; /* Gris azulado */
-  padding: 12px;
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.1);
-  transition: 0.3s ease-in-out;
-  display: block !important; /* Asegura que sea visible */
+  border: 3px dashed rgba(255, 255, 255, 0.5);
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease-in-out;
+  display: block !important;
+  font-size: 16px;
+  color: white;
 }
 
-/* Hover en la caja de subir imágenes */
 #reader__dashboard_section > div:nth-child(2):hover {
-  border-color: #facc15; /* Amarillo */
-  background-color: rgba(255, 255, 255, 0.2);
+  border-color: cyan;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
 }
 
 /* Texto de subir imagen */
 #reader__dashboard_section label {
-  font-weight: 600;
-  color: #facc15; /* Amarillo */
+  font-weight: 700;
+  color: cyan;
   cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+#reader__dashboard_section label:hover {
+  color: magenta;
 }
 
 /* Enlace "Scan an Image File" */
 #html5-qrcode-anchor-scan-type-change {
   text-decoration: none !important;
-  color: #38bdf8 !important; /* Azul */
+  color: cyan !important;
   font-weight: bold;
   transition: color 0.3s ease-in-out;
 }
 
 #html5-qrcode-anchor-scan-type-change:hover {
-  color: #facc15 !important; /* Amarillo */
+  color: magenta !important;
 }
