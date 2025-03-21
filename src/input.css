@@ -8,12 +8,11 @@
 
 html {
   user-select: none;
-}
-/* Contenedor principal del scanner */
+} /* Contenedor principal del scanner */
 #reader {
-  width: 100%;
+  width: 90vw;
   max-width: 500px;
-  padding: 20px;
+  padding: 16px;
   border-radius: 16px;
   background: #f8f9fa; /* Fondo claro neutro */
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
@@ -23,14 +22,18 @@ html {
   transition: transform 0.3s ease-in-out;
 }
 
-#reader:hover {
-  transform: scale(1.02);
+/* En pantallas pequeñas, reducir padding */
+@media (max-width: 768px) {
+  #reader {
+    padding: 12px;
+    width: 95vw;
+  }
 }
 
 /* Área de escaneo */
 #reader__scan_region {
   width: 100%;
-  aspect-ratio: 1.2;
+  aspect-ratio: 1; /* Mantenerlo cuadrado */
   border-radius: 12px;
   background: #ffffff;
   display: flex;
@@ -53,15 +56,14 @@ html {
   animation: borderPulse 3s infinite ease-in-out;
 }
 
+/* Animación más lenta en móviles */
 @keyframes borderPulse {
-  0% {
+  0%,
+  100% {
     opacity: 0.6;
   }
   50% {
     opacity: 1;
-  }
-  100% {
-    opacity: 0.6;
   }
 }
 
@@ -69,13 +71,13 @@ html {
 #reader__scan_region::after {
   content: "";
   position: absolute;
-  top: 0;
+  top: 5%;
   left: 0;
   width: 100%;
   height: 4px;
   background: linear-gradient(90deg, #6c757d, #adb5bd, #6c757d);
   box-shadow: 0px 0px 10px rgba(108, 117, 125, 0.5);
-  animation: scanMove 2s infinite ease-in-out;
+  animation: scanMove 3s infinite ease-in-out;
 }
 
 @keyframes scanMove {
@@ -90,13 +92,20 @@ html {
   }
 }
 
+/* En móviles, reducir animación */
+@media (max-width: 768px) {
+  #reader__scan_region::after {
+    animation-duration: 4s;
+  }
+}
+
 /* Estilo del Dashboard */
 #reader__dashboard {
   width: 100%;
   background: rgba(0, 0, 0, 0.05);
-  padding: 16px;
+  padding: 12px;
   border-radius: 12px;
-  margin-top: 14px;
+  margin-top: 12px;
   box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.05);
   text-align: center;
   color: #343a40;
@@ -116,35 +125,24 @@ html {
 /* Caja de subir imágenes */
 #reader__dashboard_section > div:nth-child(2) {
   text-align: center;
-  margin: 14px auto;
+  margin: 12px auto;
   width: 100%;
-  max-width: 400px;
+  max-width: 350px;
   border: 3px dashed rgba(108, 117, 125, 0.5);
-  padding: 16px;
+  padding: 12px;
   border-radius: 14px;
   background: rgba(108, 117, 125, 0.1);
   transition: all 0.3s ease-in-out;
-  display: block !important;
-  font-size: 16px;
+  font-size: 14px;
   color: #343a40;
 }
 
-#reader__dashboard_section > div:nth-child(2):hover {
-  border-color: #6c757d;
-  background: rgba(108, 117, 125, 0.2);
-  transform: scale(1.05);
-}
-
-/* Texto de subir imagen */
-#reader__dashboard_section label {
-  font-weight: 700;
-  color: #6c757d;
-  cursor: pointer;
-  transition: color 0.3s ease-in-out;
-}
-
-#reader__dashboard_section label:hover {
-  color: #495057;
+/* Reducir margen en móviles */
+@media (max-width: 480px) {
+  #reader__dashboard_section > div:nth-child(2) {
+    margin: 8px auto;
+    padding: 10px;
+  }
 }
 
 /* Enlace "Scan an Image File" */
