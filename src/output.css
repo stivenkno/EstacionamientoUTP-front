@@ -1066,10 +1066,12 @@ html {
 
 /* Contenedor principal del scanner */
 
+/* Contenedor principal del scanner */
+
 #reader {
-  width: 90vw;
+  width: 100%;
   max-width: 500px;
-  padding: 16px;
+  padding: 20px;
   border-radius: 16px;
   background: #f8f9fa;
   /* Fondo claro neutro */
@@ -1077,24 +1079,22 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   transition: transform 0.3s ease-in-out;
+  max-height: 80vh;
+  /* Evita que el escáner ocupe toda la pantalla */
+  overflow-y: auto;
 }
 
-/* En pantallas pequeñas, reducir padding */
-
-@media (max-width: 768px) {
-  #reader {
-    padding: 12px;
-    width: 95vw;
-  }
+#reader:hover {
+  transform: scale(1.02);
 }
 
 /* Área de escaneo */
 
 #reader__scan_region {
   width: 100%;
-  aspect-ratio: 1;
-  /* Mantenerlo cuadrado */
+  aspect-ratio: 1.2;
   border-radius: 12px;
   background: #ffffff;
   display: flex;
@@ -1103,6 +1103,9 @@ html {
   position: relative;
   box-shadow: inset 0px 0px 12px rgba(0, 0, 0, 0.08);
   border: 2px solid #dee2e6;
+  max-height: 350px;
+  /* Limita el tamaño del video */
+  overflow: hidden;
 }
 
 /* Marco de escaneo con efecto sutil */
@@ -1119,16 +1122,17 @@ html {
   animation: borderPulse 3s infinite ease-in-out;
 }
 
-/* Animación más lenta en móviles */
-
 @keyframes borderPulse {
-  0%,
-  100% {
+  0% {
     opacity: 0.6;
   }
 
   50% {
     opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
   }
 }
 
@@ -1137,13 +1141,13 @@ html {
 #reader__scan_region::after {
   content: "";
   position: absolute;
-  top: 5%;
+  top: 0;
   left: 0;
   width: 100%;
   height: 4px;
   background: linear-gradient(90deg, #6c757d, #adb5bd, #6c757d);
   box-shadow: 0px 0px 10px rgba(108, 117, 125, 0.5);
-  animation: scanMove 3s infinite ease-in-out;
+  animation: scanMove 2s infinite ease-in-out;
 }
 
 @keyframes scanMove {
@@ -1160,22 +1164,14 @@ html {
   }
 }
 
-/* En móviles, reducir animación */
-
-@media (max-width: 768px) {
-  #reader__scan_region::after {
-    animation-duration: 4s;
-  }
-}
-
 /* Estilo del Dashboard */
 
 #reader__dashboard {
   width: 100%;
   background: rgba(0, 0, 0, 0.05);
-  padding: 12px;
+  padding: 16px;
   border-radius: 12px;
-  margin-top: 12px;
+  margin-top: 14px;
   box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.05);
   text-align: center;
   color: #343a40;
@@ -1197,25 +1193,36 @@ html {
 
 #reader__dashboard_section > div:nth-child(2) {
   text-align: center;
-  margin: 12px auto;
+  margin: 14px auto;
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
   border: 3px dashed rgba(108, 117, 125, 0.5);
-  padding: 12px;
+  padding: 16px;
   border-radius: 14px;
   background: rgba(108, 117, 125, 0.1);
   transition: all 0.3s ease-in-out;
-  font-size: 14px;
+  display: block !important;
+  font-size: 16px;
   color: #343a40;
 }
 
-/* Reducir margen en móviles */
+#reader__dashboard_section > div:nth-child(2):hover {
+  border-color: #6c757d;
+  background: rgba(108, 117, 125, 0.2);
+  transform: scale(1.05);
+}
 
-@media (max-width: 480px) {
-  #reader__dashboard_section > div:nth-child(2) {
-    margin: 8px auto;
-    padding: 10px;
-  }
+/* Texto de subir imagen */
+
+#reader__dashboard_section label {
+  font-weight: 700;
+  color: #6c757d;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+#reader__dashboard_section label:hover {
+  color: #495057;
 }
 
 /* Enlace "Scan an Image File" */
@@ -1229,6 +1236,67 @@ html {
 
 #html5-qrcode-anchor-scan-type-change:hover {
   color: #495057 !important;
+}
+
+/* 📌 Botones de acción siempre visibles en móviles */
+
+#buttons-container {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  gap: 10px;
+}
+
+/* Asegura que los botones sean accesibles */
+
+#buttons-container button {
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+#buttons-container button:hover {
+  background: #333;
+}
+
+/* 📱 Ajustes específicos para móviles */
+
+@media (max-width: 768px) {
+  #reader {
+    width: 90%;
+    max-height: 60vh;
+    padding: 10px;
+  }
+
+  #reader__scan_region {
+    max-height: 250px;
+    /* Reduce el tamaño del video en móviles */
+  }
+
+  #buttons-container {
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    bottom: 5px;
+  }
+
+  #buttons-container button {
+    width: 100%;
+    font-size: 14px;
+  }
 }
 
 .hover\:bg-blue-600:hover {
