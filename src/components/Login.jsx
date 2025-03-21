@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setToken } from "../services/api";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -14,7 +15,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      //Instancia peticion login
+      // Instancia petición login
       const response = await axios.post(
         "https://estacionamientoutp.onrender.com/api/login",
         formData
@@ -26,9 +27,9 @@ export default function Login() {
         localStorage.setItem("token", token);
         localStorage.setItem("userName", response.data.user.username);
 
-        alert("Login exitoso!");
+        toast.success("Login exitoso!");
 
-        //Aqui va la informacion del usuario
+        // Aquí va la información del usuario
         console.log(response.data);
 
         if (
@@ -50,9 +51,7 @@ export default function Login() {
         console.error("Unexpected response:", response);
       }
     } catch (error) {
-      alert(
-        `Error: ${error.response?.data?.message || "Error al iniciar sesión"}`
-      );
+      toast.error(error.response?.data?.message || "Error al iniciar sesión");
     }
   };
 
@@ -63,7 +62,7 @@ export default function Login() {
           PARK UTP
         </Link>
       </nav>
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-r ">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-r">
         <div className="bg-white p-8 rounded-md w-full max-w-md">
           <h2 className="text-3xl font-bold text-center text-black mb-8">
             Sign In
@@ -92,7 +91,7 @@ export default function Login() {
               Sign In
             </button>
             <p className="text-center">
-              Dont have an account?{" "}
+              Don't have an account?{" "}
               <Link
                 to="/register"
                 className="text-black font-bold hover:underline"
