@@ -46,7 +46,7 @@ export default function Home() {
       <nav
         className={`fixed inset-y-0 left-0 w-64 bg-black text-white flex flex-col items-center py-8 transition-transform duration-300 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:relative md:flex`}
+        } md:translate-x-0 md:relative md:flex z-10`}
       >
         <h1 className="text-2xl font-bold mb-8"> Parking App</h1>
         <ul className="space-y-4 w-full text-center">
@@ -81,7 +81,7 @@ export default function Home() {
         </h1>
 
         <button
-          className="bg-black hover:bg-gray-500 text-white py-2 px-4 rounded-md mb-4 relative right-0 -z-10"
+          className="bg-black hover:bg-gray-500 text-white py-2 px-4 rounded-md mb-4 relative right-0 "
           onClick={() => {
             window.location.reload();
           }}
