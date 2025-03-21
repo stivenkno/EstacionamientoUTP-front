@@ -6,7 +6,8 @@ const Administrador = () => {
   const scannerRef = useRef(null);
 
   useEffect(() => {
-    const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+    const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 });
+    console.log(scanner);
 
     scanner.render(
       (decodedText) => {
