@@ -164,28 +164,3 @@ html {
 #buttons-container button:hover {
   background: #333;
 }
-
-/* 📱 Estilos Responsivos */
-@media (max-width: 768px) {
-  #reader {
-    width: 90%;
-    max-height: 60vh;
-    padding: 12px;
-  }
-
-  #reader__scan_region {
-    max-height: 250px;
-  }
-
-  #buttons-container {
-    flex-direction: column;
-    align-items: center;
-    width: 90%;
-    bottom: 8px;
-  }
-
-  #buttons-container button {
-    width: 100%;
-    font-size: 14px;
-  }
-}
