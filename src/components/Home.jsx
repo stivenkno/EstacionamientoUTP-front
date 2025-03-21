@@ -81,7 +81,7 @@ export default function Home() {
         </h1>
 
         <button
-          className="bg-black hover:bg-gray-500 text-white py-2 px-4 rounded-md mb-4 relative right-0 z-20 "
+          className="bg-black hover:bg-gray-500 text-white py-2 px-4 rounded-md mb-4 relative right-0 -z-10"
           onClick={() => {
             window.location.reload();
           }}
