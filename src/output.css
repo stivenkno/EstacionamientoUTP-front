@@ -1068,16 +1068,20 @@ html {
 
 #reader {
   width: 100%;
-  max-width: 480px;
+  max-width: 500px;
   padding: 20px;
   border-radius: 16px;
-  background: #0a0f1f;
-  /* Azul oscuro */
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.6);
+  background: #f8f9fa;
+  /* Fondo claro neutro */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: transform 0.3s ease-in-out;
+}
+
+#reader:hover {
+  transform: scale(1.02);
 }
 
 /* Área de escaneo */
@@ -1086,19 +1090,16 @@ html {
   width: 100%;
   aspect-ratio: 1.2;
   border-radius: 12px;
-  background: radial-gradient(
-    circle,
-    rgba(17, 24, 39, 0.9),
-    rgba(10, 15, 31, 1)
-  );
+  background: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  box-shadow: inset 0px 0px 15px rgba(0, 255, 255, 0.4);
+  box-shadow: inset 0px 0px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid #dee2e6;
 }
 
-/* Marco de escaneo con bordes dinámicos */
+/* Marco de escaneo con efecto sutil */
 
 #reader__scan_region::before {
   content: "";
@@ -1106,10 +1107,10 @@ html {
   width: 90%;
   height: 90%;
   border: 3px solid transparent;
-  -o-border-image: linear-gradient(45deg, cyan, magenta, cyan);
-     border-image: linear-gradient(45deg, cyan, magenta, cyan);
+  -o-border-image: linear-gradient(45deg, #adb5bd, #6c757d, #adb5bd);
+     border-image: linear-gradient(45deg, #adb5bd, #6c757d, #adb5bd);
   border-image-slice: 1;
-  animation: borderPulse 2s infinite ease-in-out;
+  animation: borderPulse 3s infinite ease-in-out;
 }
 
 @keyframes borderPulse {
@@ -1135,8 +1136,8 @@ html {
   left: 0;
   width: 100%;
   height: 4px;
-  background: linear-gradient(90deg, cyan, magenta, cyan);
-  box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.7);
+  background: linear-gradient(90deg, #6c757d, #adb5bd, #6c757d);
+  box-shadow: 0px 0px 10px rgba(108, 117, 125, 0.5);
   animation: scanMove 2s infinite ease-in-out;
 }
 
@@ -1158,13 +1159,13 @@ html {
 
 #reader__dashboard {
   width: 100%;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.05);
   padding: 16px;
   border-radius: 12px;
   margin-top: 14px;
-  box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.05);
   text-align: center;
-  color: white;
+  color: #343a40;
   font-size: 14px;
 }
 
@@ -1176,7 +1177,7 @@ html {
   align-items: center;
   font-size: 16px;
   font-weight: bold;
-  color: #ffffff;
+  color: #495057;
 }
 
 /* Caja de subir imágenes */
@@ -1186,19 +1187,19 @@ html {
   margin: 14px auto;
   width: 100%;
   max-width: 400px;
-  border: 3px dashed rgba(255, 255, 255, 0.5);
+  border: 3px dashed rgba(108, 117, 125, 0.5);
   padding: 16px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(108, 117, 125, 0.1);
   transition: all 0.3s ease-in-out;
   display: block !important;
   font-size: 16px;
-  color: white;
+  color: #343a40;
 }
 
 #reader__dashboard_section > div:nth-child(2):hover {
-  border-color: cyan;
-  background: rgba(255, 255, 255, 0.1);
+  border-color: #6c757d;
+  background: rgba(108, 117, 125, 0.2);
   transform: scale(1.05);
 }
 
@@ -1206,26 +1207,26 @@ html {
 
 #reader__dashboard_section label {
   font-weight: 700;
-  color: cyan;
+  color: #6c757d;
   cursor: pointer;
   transition: color 0.3s ease-in-out;
 }
 
 #reader__dashboard_section label:hover {
-  color: magenta;
+  color: #495057;
 }
 
 /* Enlace "Scan an Image File" */
 
 #html5-qrcode-anchor-scan-type-change {
   text-decoration: none !important;
-  color: cyan !important;
+  color: #6c757d !important;
   font-weight: bold;
   transition: color 0.3s ease-in-out;
 }
 
 #html5-qrcode-anchor-scan-type-change:hover {
-  color: magenta !important;
+  color: #495057 !important;
 }
 
 .hover\:bg-blue-600:hover {
