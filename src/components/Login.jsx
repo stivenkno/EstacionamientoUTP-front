@@ -15,40 +15,71 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Instancia petición login
-      const response = await axios.post(
-        "https://estacionamientoutp.onrender.com/api/login",
-        formData
-      );
+      if (
+        formData.email.includes("@utp.edu.co") ||
+        formData.email === "admin@gmail.com" ||
+        formData.email === "admin2@gmail.com" ||
+        formData.email === "admin3@gmail.com" ||
+        formData.email === "admin4@gmail.com"
+      ) {
+        // Instancia petición login
+        const response = await axios.post(
+          "https://estacionamientoutp.onrender.com/api/login",
+          formData
+        );
 
-      if (response.status === 200) {
-        const token = response.data.token;
-        setToken(token);
-        localStorage.setItem("token", token);
-        localStorage.setItem("userName", response.data.user.username);
+        if (response.status === 200) {
+          const token = response.data.token;
+          setToken(token);
+          localStorage.setItem("token", token);
+          localStorage.setItem("userName", response.data.user.username);
 
-        toast.success("Login exitoso!");
+          toast.success("Login exitoso!");
 
-        // Aquí va la información del usuario
-        console.log(response.data);
+          // Aquí va la información del usuario
+          console.log(response.data);
 
-        if (
-          formData.email === "admin@gmail.com" &&
-          formData.password === "admin"
-        ) {
-          navigate("/admin");
-          return;
-        }
+          if (
+            formData.email === "admin@gmail.com" &&
+            formData.password === "admin"
+          ) {
+            navigate("/admin/1");
+            return;
+          }
+          if (
+            formData.email === "admin2@gmail.com" &&
+            formData.password === "admin2"
+          ) {
+            navigate("/admin/2");
+            return;
+          }
+          if (
+            formData.email === "admin3@gmail.com" &&
+            formData.password === "admin3"
+          ) {
+            navigate("/admin/3");
+            return;
+          }
+          if (
+            formData.email === "admin4@gmail.com" &&
+            formData.password === "admin4"
+          ) {
+            navigate("/admin/4");
+            return;
+          }
 
-        // Validar el token antes de navegar
-        const validateToken = localStorage.getItem("token");
-        if (validateToken) {
-          navigate("/home");
+          // Validar el token antes de navegar
+          const validateToken = localStorage.getItem("token");
+          if (validateToken) {
+            navigate("/home");
+          } else {
+            console.log("No hay token.");
+          }
         } else {
-          console.log("No hay token.");
+          console.error("Unexpected response:", response);
         }
       } else {
-        console.error("Unexpected response:", response);
+        toast.error("El correo no pertenece a la UTP");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Error al iniciar sesión");

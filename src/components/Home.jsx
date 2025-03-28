@@ -89,7 +89,7 @@ export default function Home() {
           ACTUALIZAR
         </button>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-5xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-5xl cursor-pointer">
           {[
             {
               name: "Park Uno",

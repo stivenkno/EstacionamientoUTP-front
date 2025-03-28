@@ -6,6 +6,7 @@ import Administrador from "./components/Administrador.jsx";
 import { Toaster } from "react-hot-toast";
 
 import EditProfile from "./components/EditProfile.jsx";
+import QR from "./components/QR.jsx";
 
 export default function App() {
   return (
@@ -16,7 +17,8 @@ export default function App() {
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/QR" element={<EditProfile />} />
-        <Route path="/admin" element={<Administrador />} />
+        <Route path="/admin/:park" element={<Administrador />} />
+        <Route path="/admin/:park/QR" element={<QR />} />
       </Routes>
     </>
   );
